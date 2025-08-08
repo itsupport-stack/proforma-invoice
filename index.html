@@ -624,5 +624,45 @@
             });
         })();
     </script>
+<script>
+  // STEP 1: Load the CSV
+  fetch('product.csv')
+    .then(response => response.text())
+    .then(data => {
+      const rows = data.trim().split("\n").map(row => row.split(","));
+      const headers = rows.shift();
+      const products = rows.map(row => {
+        let obj = {};
+        row.forEach((val, i) => obj[headers[i].trim()] = val.trim());
+        return obj;
+      });
+
+      window.productMaster = products;
+
+      // STEP 2: Populate Particulars Dropdown (first row)
+      const particularsDropdown = document.querySelector(".product-dropdown");
+      const uniqueProducts = [...new Set(products.map(p => p["Product"]))];
+
+      uniqueProducts.forEach(productName => {
+        const opt = document.createElement("option");
+        opt.value = productName;
+        opt.text = productName;
+        particularsDropdown.appendChild(opt);
+      });
+
+      // STEP 3: On Change, fill Rate (optional logic)
+      particularsDropdown.addEventListener("change", function () {
+        const selected = this.value;
+        const match = products.find(p => p["Product"] === selected);
+        if (match) {
+          const rateInput = document.querySelector(".rate-field");
+          if (rateInput) {
+            rateInput.value = match["Rate"]; // or match["Rate/SqFt"] if that’s your header
+          }
+        }
+      });
+    });
+</script>
 </body>
 </html>
+
