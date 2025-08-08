@@ -46,12 +46,6 @@
         }
         .invoice-container, body { background-color: white; }
 
-        /* Table Layout for both screen and print */
-        .table-container table {
-            table-layout: fixed;
-            width: 100%;
-        }
-
         @media print {
             @page {
                 size: A4;
@@ -74,20 +68,13 @@
             .print-hide-if-empty.hidden-for-print { display: none !important; }
             [contenteditable="true"], input, select { border: none !important; background-color: transparent !important; padding: 0; }
             .delete-item-btn { display: none; }
-            
+
             /* Keep table header on every page */
+            table { page-break-after: auto; }
             thead { display: table-header-group; }
             
             /* Prevent rows and footer from splitting across pages */
             tr, tfoot { page-break-inside: avoid; }
-            
-            /* Allow multiline content in particulars */
-            .item-particulars {
-                white-space: pre-wrap; /* Preserve whitespace and wrap */
-                word-wrap: break-word;
-                text-align: left !important;
-                display: block !important;
-            }
         }
 
         /* Modal Styles */
@@ -165,50 +152,48 @@
         </section>
 
         <main>
-            <div class="table-container">
-                <table class="w-full border-collapse mb-6 bg-gray-50 text-sm rounded-lg overflow-hidden shadow-sm">
-                    <thead class="bg-primary-dark text-white text-left">
-                        <tr>
-                            <th scope="col" class="py-3 px-2" style="width: 8%;">S.No</th>
-                            <th scope="col" class="py-3 px-2" style="width: 40%;">Particulars</th>
-                            <th scope="col" class="py-3 px-2" style="width: 8%;">Thk<br>(mm)</th>
-                            <th scope="col" class="py-3 px-2" style="width: 8%;">Len<br>(ft)</th>
-                            <th scope="col" class="py-3 px-2" style="width: 8%;">Brd<br>(ft)</th>
-                            <th scope="col" class="py-3 px-2" style="width: 10%;">Qty<br>(Sht)</th>
-                            <th scope="col" class="py-3 px-2" style="width: 10%;">Qty<br>(SqFt)</th>
-                            <th scope="col" class="py-3 px-2" style="width: 15%;">Rate/<br>SqFt</th>
-                            <th scope="col" class="py-3 px-2 text-right" style="width: 15%;">Amount</th>
-                            <th scope="col" class="py-3 px-2 no-print" style="width: 5%;"></th>
-                        </tr>
-                    </thead>
-                    <tbody id="invoiceItems">
+            <table class="w-full border-collapse mb-6 bg-gray-50 text-sm rounded-lg overflow-hidden shadow-sm">
+                <thead class="bg-primary-dark text-white text-left">
+                    <tr>
+                        <th scope="col" class="py-3 px-2 w-[5%]">S.No</th>
+                        <th scope="col" class="py-3 px-2 w-[30%]">Particulars</th>
+                        <th scope="col" class="py-3 px-2 w-[10%]">Thk(mm)</th>
+                        <th scope="col" class="py-3 px-2 w-[10%]">Len(ft)</th>
+                        <th scope="col" class="py-3 px-2 w-[10%]">Brd(ft)</th>
+                        <th scope="col" class="py-3 px-2 w-[10%]">Qty(Sht)</th>
+                        <th scope="col" class="py-3 px-2 w-[10%]">Qty(SqFt)</th>
+                        <th scope="col" class="py-3 px-2 w-[10%]">Rate/SqFt</th>
+                        <th scope="col" class="py-3 px-2 w-[15%] text-right">Amount</th>
+                        <th scope="col" class="py-3 px-2 w-[5%] no-print"></th>
+                    </tr>
+                </thead>
+                <tbody id="invoiceItems">
                     </tbody>
-                    <tfoot>
-                        <tr class="font-bold">
-                            <td colspan="8" class="border-t pt-4 pr-4 text-right">Subtotal</td>
-                            <td id="subtotalAmount" class="border-t pt-4 pr-2 text-right">₹0.00</td>
-                            <td class="border-t pt-4 no-print"></td>
-                        </tr>
-                        <tr class="font-bold">
-                            <td colspan="8" class="pt-2 pr-4 text-right">GST (18%)</td>
-                            <td id="taxAmount" class="pt-2 pr-2 text-right">₹0.00</td>
-                            <td class="pt-2 no-print"></td>
-                        </tr>
-                        <tr class="text-lg font-extrabold">
-                            <td colspan="8" class="border-t-2 border-primary-dark pt-4 pr-4 text-right">Grand Total</td>
-                            <td id="grandTotalAmount" class="border-t-2 border-primary-dark pt-4 pr-2 text-right">₹0.00</td>
-                            <td class="border-t-2 border-primary-dark pt-4 no-print"></td>
-                        </tr>
-                        <tr class="no-print">
-                            <td colspan="10" class="pt-4 pb-2 text-right add-remove-buttons">
-                                <button id="addItemBtn" class="w-8 h-8 flex items-center justify-center bg-secondary-accent hover:bg-dark-shade text-white font-bold rounded-full shadow-md transition-transform hover:scale-110" aria-label="Add new item row">
-                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
-                                </button>
-                            </td>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
+                <tfoot>
+                    <tr class="font-bold">
+                        <td colspan="8" class="border-t pt-4 pr-4 text-right">Subtotal</td>
+                        <td id="subtotalAmount" class="border-t pt-4 pr-2 text-right">₹0.00</td>
+                        <td class="border-t pt-4 no-print"></td>
+                    </tr>
+                    <tr class="font-bold">
+                        <td colspan="8" class="pt-2 pr-4 text-right">GST (18%)</td>
+                        <td id="taxAmount" class="pt-2 pr-2 text-right">₹0.00</td>
+                        <td class="pt-2 no-print"></td>
+                    </tr>
+                    <tr class="text-lg font-extrabold">
+                        <td colspan="8" class="border-t-2 border-primary-dark pt-4 pr-4 text-right">Grand Total</td>
+                        <td id="grandTotalAmount" class="border-t-2 border-primary-dark pt-4 pr-2 text-right">₹0.00</td>
+                        <td class="border-t-2 border-primary-dark pt-4 no-print"></td>
+                    </tr>
+                    <tr class="no-print">
+                        <td colspan="10" class="pt-4 pb-2 text-right add-remove-buttons">
+                            <button id="addItemBtn" class="w-8 h-8 flex items-center justify-center bg-secondary-accent hover:bg-dark-shade text-white font-bold rounded-full shadow-md transition-transform hover:scale-110" aria-label="Add new item row">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
+                            </button>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
         </main>
         
         <footer class="mt-8">
@@ -339,19 +324,16 @@
                 const tr = document.createElement('tr');
                 tr.className = 'item-row text-center';
                 tr.innerHTML = `
-                    <td class="border-t py-2 px-2 text-left" style="width: 5%;">${sno}</td>
-                    <td class="border-t py-2 px-2" style="width: 40%;">
-                        <div contenteditable="true" class="item-particulars w-full bg-transparent border-none p-0 text-left cursor-text" aria-label="Particulars" tabindex="0" style="display: none;"></div>
-                        <input type="text" list="product-list" class="product-search-input w-full bg-transparent border-none p-0 text-left mt-1" aria-label="Product Search">
-                    </td>
-                    <td class="border-t py-2 px-2" style="width: 8%;"><input type="number" step="0.01" class="item-thk w-full bg-transparent border-none p-0 text-center"></td>
-                    <td class="border-t py-2 px-2" style="width: 8%;"><input type="number" step="0.01" class="item-len w-full bg-transparent border-none p-0 text-center"></td>
-                    <td class="border-t py-2 px-2" style="width: 8%;"><input type="number" step="0.01" class="item-brd w-full bg-transparent border-none p-0 text-center"></td>
-                    <td class="border-t py-2 px-2" style="width: 8%;"><input type="number" step="1" class="item-qty w-full bg-transparent border-none p-0 text-center"></td>
-                    <td class="item-sqft border-t py-2 px-2 text-right" style="width: 8%;">0.00</td>
-                    <td class="border-t py-2 px-2" style="width: 15%;"><input type="number" step="0.01" class="item-rate w-full bg-transparent border-none p-0 text-center"></td>
-                    <td class="item-amount border-t py-2 px-2 text-right" style="width: 15%;">0.00</td>
-                    <td class="border-t no-print text-center" style="width: 5%;">
+                    <td class="border-t py-2 px-2 text-left">${sno}</td>
+                    <td class="border-t py-2 px-2"><input type="text" list="product-list" class="item-particulars w-full bg-transparent border-none p-0" aria-label="Particulars"></td>
+                    <td class="border-t py-2 px-2"><input type="number" step="0.01" class="item-thk w-full bg-transparent border-none p-0 text-center"></td>
+                    <td class="border-t py-2 px-2"><input type="number" step="0.01" class="item-len w-full bg-transparent border-none p-0 text-center"></td>
+                    <td class="border-t py-2 px-2"><input type="number" step="0.01" class="item-brd w-full bg-transparent border-none p-0 text-center"></td>
+                    <td class="border-t py-2 px-2"><input type="number" step="1" class="item-qty w-full bg-transparent border-none p-0 text-center"></td>
+                    <td class="item-sqft border-t py-2 px-2 text-right">0.00</td>
+                    <td class="border-t py-2 px-2"><input type="number" step="0.01" class="item-rate w-full bg-transparent border-none p-0 text-center"></td>
+                    <td class="item-amount border-t py-2 px-2 text-right">0.00</td>
+                    <td class="border-t no-print text-center">
                         <button class="remove-item-btn w-6 h-6 flex items-center justify-center text-white bg-red-500 hover:bg-red-700 rounded-full transition-colors" aria-label="Remove item">
                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
                         </button>
@@ -389,7 +371,7 @@
                 });
 
                 // Add event listener for the particulars input to trigger the modal
-                tr.querySelector('.product-search-input').addEventListener('input', (event) => {
+                tr.querySelector('.item-particulars').addEventListener('input', (event) => {
                     const selectedName = event.target.value;
                     const matchingProducts = productMasterData.filter(p => p['Product Name'] === selectedName);
 
@@ -490,7 +472,7 @@
             };
 
             const updateRateOnSelection = () => {
-                const selectedProductName = currentItemRow.querySelector('.product-search-input').value;
+                const selectedProductName = currentItemRow.querySelector('.item-particulars').value;
                 let filteredProducts = productMasterData.filter(p => p['Product Name'] === selectedProductName);
                 
                 // Filter products based on current selections
@@ -510,27 +492,19 @@
                 
                 if (filteredProducts.length === 1) {
                     const rate = filteredProducts[0]['Rate/SqFt'];
-                    const thk = filteredProducts[0]['Thickness (mm)'];
-                    if (rate && currentItemRow.querySelector('.item-rate')) {
-                        currentItemRow.querySelector('.item-rate').value = rate.toString();
-                    }
-                    if (thk && currentItemRow.querySelector('.item-thk')) {
-                        currentItemRow.querySelector('.item-thk').value = thk.toString();
+                    if (rate && rateSelect) {
+                        rateSelect.value = rate.toString();
                     }
                 } else if (filteredProducts.length === 0) {
-                    // No matching product found, clear the rate and thickness
-                    if (currentItemRow.querySelector('.item-rate')) {
-                        currentItemRow.querySelector('.item-rate').value = '';
-                    }
-                    if (currentItemRow.querySelector('.item-thk')) {
-                        currentItemRow.querySelector('.item-thk').value = '';
+                    // No matching product found, clear the rate
+                    if (rateSelect) {
+                        rateSelect.value = '';
                     }
                 }
             };
             
             saveModalBtn.addEventListener('click', () => {
-                const particularsDiv = currentItemRow.querySelector('.item-particulars');
-                const productSearchInput = currentItemRow.querySelector('.product-search-input');
+                const particularsInput = currentItemRow.querySelector('.item-particulars');
                 const thkInput = currentItemRow.querySelector('.item-thk');
                 const rateInput = currentItemRow.querySelector('.item-rate');
                 const lenInput = currentItemRow.querySelector('.item-len');
@@ -545,7 +519,7 @@
                 }).filter(f => f.value); // Filter out unselected options
 
                 // Find the specific product row that matches all selected features
-                const selectedProductName = productSearchInput.value;
+                const selectedProductName = particularsInput.value;
                 const matchingProduct = productMasterData.find(p => {
                     return p['Product Name'] === selectedProductName && selectedFeatures.every(f => p[f.name] && p[f.name].toString() === f.value);
                 });
@@ -556,17 +530,10 @@
                     rateInput.value = matchingProduct['Rate/SqFt'] || '';
                     lenInput.value = matchingProduct['Length (ft)'] || '';
                     brdInput.value = matchingProduct['Breadth (ft)'] || '';
-                    
-                    // Create the multiline description excluding thickness and rate
-                    const descriptionLines = selectedFeatures
-                        .filter(f => f.name !== 'Thickness (mm)' && f.name !== 'Rate/SqFt')
-                        .map(f => `${f.name}: ${f.value}`);
-                    const updatedDescription = `${selectedProductName}<br>${descriptionLines.join('<br>')}`;
-                    particularsDiv.innerHTML = updatedDescription;
 
-                    // After updating the description, hide the search input and show the particulars div
-                    productSearchInput.style.display = 'none';
-                    particularsDiv.style.display = 'block';
+                    // Update the particulars field to include selected options
+                    const updatedDescription = selectedFeatures.map(f => `${f.name}: ${f.value}`).join(', ');
+                    particularsInput.value = `${selectedProductName} | ${updatedDescription}`;
                 } else {
                     showMessage("Could not find a matching product for the selected options.");
                 }
